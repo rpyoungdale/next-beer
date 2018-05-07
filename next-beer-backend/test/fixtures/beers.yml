@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: 
+  abv: MyString
+  ibu: MyString
+  brewery_id: 1
+  like_count: 1
+  dislike_count: 1
+
+two:
+  type: 
+  abv: MyString
+  ibu: MyString
+  brewery_id: 1
+  like_count: 1
+  dislike_count: 1
