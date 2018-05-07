@@ -3271,6 +3271,7 @@ all_beers = [
 },
 {
   "name": "Blue Moon",
+  "image_url": "https://drizly.com/blue-moon-belgian-white/p1854",
   "tagline": "Wheat",
   "ibu": "9.0",
   "abv": "5.4"

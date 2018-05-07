@@ -2,6 +2,7 @@
 class Beer {
   constructor(json) {
     this.id = json.id;
+    this.image = json.image;
     this.name = json.name;
     this.beerType = json.beerType;
     this.abv = json.abv;
@@ -26,6 +27,7 @@ class Beer {
   render() {
     return `
     <h1>${this.name}</h1>
+    <img src="${this.image}" height="200">
     <ul>
       <li>Type: ${this.beerType}</li>
       <li>ABV: ${this.abv}</li>
