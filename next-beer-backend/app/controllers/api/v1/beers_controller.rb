@@ -1,6 +1,6 @@
 class Api::V1::BeersController < ApplicationController
   before_action :find_beer, only: [:update]
-  
+
   def index
     @beers = Beer.all
     render json: @beers
@@ -18,7 +18,7 @@ class Api::V1::BeersController < ApplicationController
   private
 
   def beer_params
-    params.permit(:type, :abv, :ibu, :brewery_id, :like_count, :dislike_count)
+    params.permit(:type, :image, :abv, :ibu, :brewery_id, :like_count, :dislike_count)
   end
 
   def find_beer

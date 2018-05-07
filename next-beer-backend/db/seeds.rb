@@ -3277,4 +3277,26 @@ all_beers = [
 }
 ]
 
-all_beers.each {|beer| Beer.create(name: beer[:name], beer_type: beer[:tagline], abv: beer[:abv], ibu: beer[:ibu], like_count: 0, dislike_count: 0)}
+all_beers.each {|beer| Beer.create(image: beer[:image_url], name: beer[:name], beer_type: beer[:tagline], abv: beer[:abv], ibu: beer[:ibu], like_count: 0, dislike_count: 0)}
+
+Comment.create(content: "This is great", beer_id: 1)
+Comment.create(content: "Phenomenal beer", beer_id: 1)
+Comment.create(content: "Fantastic brewski", beer_id: 1)
+Comment.create(content: "This beer is the Swoop-de-scoop-poop", beer_id: 1)
+Comment.create(content: "Awful beer. Dont ever drink", beer_id: 1)
+Comment.create(content: "Awful beer. Dont ever drink", beer_id: 2)
+Comment.create(content: "Awful beer. Dont ever drink", beer_id: 2)
+Comment.create(content: "Awful beer. Dont ever drink", beer_id: 2)
+Comment.create(content: "Awful beer. Dont ever drink", beer_id: 3)
+Comment.create(content: "Awful beer. Dont ever drink", beer_id: 3)
+Comment.create(content: "Awful beer. Dont ever drink", beer_id: 3)
+Comment.create(content: "Awful beer. Dont ever drink", beer_id: 4)
+Comment.create(content: "Awful beer. Dont ever drink", beer_id: 4)
+Comment.create(content: "Awful beer. Dont ever drink", beer_id: 4)
+Comment.create(content: "Awful beer. Dont ever drink", beer_id: 4)
+Comment.create(content: "Awful beer. Dont ever drink", beer_id: 4)
+Comment.create(content: "Awful beer. Dont ever drink", beer_id: 4)
+Comment.create(content: "Awful beer. Dont ever drink", beer_id: 5)
+Comment.create(content: "Awful beer. Dont ever drink", beer_id: 5)
+Comment.create(content: "Awful beer. Dont ever drink", beer_id: 6)
+Comment.create(content: "Awful beer. Dont ever drink", beer_id: 6)
