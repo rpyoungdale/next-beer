@@ -3,34 +3,33 @@ allBeer = [];
 
 document.addEventListener('DOMContentLoaded', e => {
   let beerList = document.getElementById('beer-list')
-
   renderPage(beerList)
 });
 
 function renderPage(beerList) {
+  renderComments()
   fetch(`http://localhost:3000/api/v1/beers`)
-  .then(res => res.json())
-  .then(json => json.forEach(beer => {
-    new Beer(beer)
-  }))
-  // .then(() => renderComments())
-  .then(() => beerList.innerHTML = Beer.renderAll())
-  .then(() => document.getElementById('comments').innerHTML = Comment.renderAll())
-  .then(() => commentEventListener())
+    .then(res => res.json())
+    .then(json => json.forEach(beer => {
+      new Beer(beer)
+    }))
+    .then(() => beerList.innerHTML = Beer.renderAll())
+    .then(() => Beer.all.forEach(beer => {
+      document.getElementById(`comments${beer.id}`).innerHTML = beer.attachComments()
+    }))
+    .then(() => commentEventListener())
 }
 
 function commentEventListener() {
-  let newComment = document.querySelector('form#comment-form')
-  // debugger;
-  newComment.addEventListener('submit', e => {
-    // debugger
-    e.preventDefault();
-    debugger
-    let newComment = new Comment(e.target.querySelector('input').value, parseInt(e.target.dataset.id))
-    document.getElementById('comments').innerHTML = Comment.renderAll()
-    newComment.save()
+  let newCommentForm = document.querySelectorAll('.comment-form')
+  newCommentForm.forEach(form => {
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      let newComment = new Comment({content: e.target.querySelector('input').value, beer_id: parseInt(e.target.dataset.id)}) //TEST THIS
+      document.querySelectorAll('div ol')[(e.target.dataset.id)-1].innerHTML += newComment.renderComment()
+      newComment.save()
+    })
   })
-
 }
 
 function renderComments() {

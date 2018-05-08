@@ -1,26 +1,13 @@
 // let commentId = 0
 class Comment {
-  constructor(content, beerId) {
+  constructor(comment) {
     // this.id = ++commentId
-    this.content = content
-    this.beerId = beerId
+    this.content = comment.content
+    this.beer_id = comment.beer_id
     Comment.all.push(this)
   }
 
-  static renderAll() {
-    const allCommentsHTML = Comment.all.map(comment => {
-      return comment.render();
-    }).join('')
-
-    return `
-    <div>
-      <ol>
-        ${allCommentsHTML}
-      </ol>
-    </div>`
-  }
-
-  render(){
+  renderComment(){
     return `
       <li>${this.content}</li>`
   }
@@ -34,7 +21,7 @@ class Comment {
       },
       body: JSON.stringify({
         content: this.content,
-        beer_id: this.beerId
+        beer_id: this.beer_id
       })
     })
   }

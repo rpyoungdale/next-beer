@@ -1,4 +1,3 @@
-// let beerId = 0;
 class Beer {
   constructor(json) {
     this.id = json.id;
@@ -19,7 +18,7 @@ class Beer {
     }).join('')
 
     return `
-    <div>
+    <div id='allBeers'>
       ${allBeerHTML}
     </div>`
   }
@@ -35,16 +34,33 @@ class Beer {
       <li>Likes: ${this.likeCount}</li>
       <li>Dislikes: ${this.dislikeCount}</li>
     </ul>
-    <form id="comment-form" data-id="${this.id}">
+    <form class="comment-form" data-id="${this.id}">
       <p>Tell us what you think!</p>
       <input type="text">
+      <input type="submit" value="Submit">
     </form>
-    <button type="submit" value="Submit" form="comment-form">Submit</button>
     <h3>Comments</h3>
-    <div id="comments">
+    <div id="comments${this.id}">
     </div>
     `
   }
+
+  attachComments() {
+    const allCommentsHTML = Comment.all.map(comment => {
+      // debugger
+      if(comment.beer_id == this.id) {
+        return `${comment.renderComment()}`;
+      }
+    }).join('')
+
+    return `
+    <div>
+      <ol class='list' id="${this.id}">
+        ${allCommentsHTML}
+      </ol>
+    </div>`
+  }
+
 }
 
 Beer.all = [];
