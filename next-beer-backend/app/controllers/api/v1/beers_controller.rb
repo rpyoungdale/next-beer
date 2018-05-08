@@ -6,6 +6,11 @@ class Api::V1::BeersController < ApplicationController
     render json: @beers
   end
 
+  def create
+    @beer = Beer.create(beer_params)
+    render json: @beer, status: :accepted
+  end
+
   def update
     @beer.update(beer_params)
     if @beer.save
@@ -18,7 +23,7 @@ class Api::V1::BeersController < ApplicationController
   private
 
   def beer_params
-    params.permit(:type, :image, :abv, :ibu, :brewery_id, :like_count, :dislike_count)
+    params.permit(:name, :beer_type, :image, :abv, :ibu, :brewery_id, :like_count, :dislike_count)
   end
 
   def find_beer
