@@ -1,9 +1,16 @@
 class Beer {
   constructor(json) {
     this.id = json.id;
-    this.image = json.image;
+    // debugger;
+    if(json.image){
+      this.image = json.image
+    } else {
+      this.image =
+      'http://meghansmith.github.io/conquestbrewing/images/beerBottle2.png'
+    }
+
     this.name = json.name;
-    this.beerType = json.beerType;
+    this.beerType = json.beer_type;
     this.abv = json.abv;
     this.ibu = json.ibu;
     this.likeCount = json.like_count;
@@ -25,8 +32,8 @@ class Beer {
       <input type="text" id="abv" placeholder="ABV">
       <input type="text" id="ibu" placeholder="IBU">
       <input type="text" id="type" placeholder="Type of Beer(ex. Wheat)">
+      <input type="submit" value="Add a New Favorite Beer!">
     </form>
-    <button type="submit" value="Submit" form="new-beer-form">Add a New Favorite Beer!</button>
     </div>
 
     <div id='allBeers'>
@@ -43,9 +50,13 @@ class Beer {
       <li>Type: ${this.beerType}</li>
       <li>ABV: ${this.abv}</li>
       <li>IBU: ${this.ibu}</li>
-      <li>Likes: ${this.likeCount}</li>
-      <li>Dislikes: ${this.dislikeCount}</li>
     </ul>
+    <div class="like-dislike">
+      Likes: <span class="like" data-id="${this.id}">${this.likeCount}</span><button class="like-button"  data-id ="${this.id}" style="font-size:27px;border: none;
+        background: none;">👍</button>
+      Dislikes: <span class="dislike" data-id="${this.id}">${this.dislikeCount}</span><button class="dislike-button" data-id ="${this.id}" style="font-size:27px;border: none;
+        background: none;">👎</button>
+    </div>
     <form class="comment-form" data-id="${this.id}">
       <p>Tell us what you think!</p>
       <input type="text">
@@ -57,20 +68,44 @@ class Beer {
     `
   }
 
-<<<<<<< HEAD
+
   save() {
-    fetch('http://localhost:3000/api/v1/comments', {
+    fetch('http://localhost:3000/api/v1/beers', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        content: this.content,
-        beer_id: this.beerId
+        image: this.image,
+        name: this.name,
+        beer_type: this.beerType,
+        like_count: this.likeCount,
+        dislike_count: this.dislikeCount,
+        abv: this.abv,
+        ibu: this.ibu,
       })
     })
-=======
+  }
+
+  updateLike() {
+    return fetch(`http://localhost:3000/api/v1/beers/${this.id}`, {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        like_count: this.likeCount+1
+      })
+    })
+    .then(response => response.json())
+    .then(json => {
+      this.likeCount = json.like_count
+      // debugger;
+    })
+  }
+
   attachComments() {
     const allCommentsHTML = Comment.all.map(comment => {
       if(comment.beer_id == this.id) {
@@ -84,9 +119,8 @@ class Beer {
         ${allCommentsHTML}
       </ol>
     </div>`
->>>>>>> refs/remotes/origin/master
-  }
 
+  }
 }
 
 Beer.all = [];
