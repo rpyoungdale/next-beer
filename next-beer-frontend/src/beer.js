@@ -47,7 +47,6 @@ class Beer {
 
   attachComments() {
     const allCommentsHTML = Comment.all.map(comment => {
-      // debugger
       if(comment.beer_id == this.id) {
         return `${comment.renderComment()}`;
       }
