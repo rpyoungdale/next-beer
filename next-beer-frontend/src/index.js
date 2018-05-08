@@ -5,12 +5,11 @@ document.addEventListener('DOMContentLoaded', e => {
   let beerList = document.getElementById('beer-list')
   renderComments()
     .then(() => renderPage(beerList))
-
-
 });
 
-function renderPage(beerList) {
 
+
+function renderPage(beerList) {
   fetch(`http://localhost:3000/api/v1/beers`)
     .then(res => res.json())
     .then(json => json.forEach(beer => {
@@ -29,7 +28,45 @@ function renderPage(beerList) {
     .then(() => {
       listenerForLikesDislike()
     })
+    .then(() => nextBeer())
+    .then(() => allBeers())
+
 }
+
+function allBeers() {
+  let beerList = document.getElementById('beer-list')
+  let allBeersButton = document.getElementById('all-beers')
+  allBeersButton.addEventListener('click', e => {
+    e.preventDefault()
+    renderPage(beerList)
+    // document.getElementById('beer-list').innerHTML = Beer.renderAll()
+
+  })
+}
+
+function nextBeer() {
+  let beerList = document.getElementById('beer-list')
+  let nextBeerButton = document.getElementById('next-beer')
+  nextBeerButton.addEventListener('click', e => {
+    e.preventDefault()
+    let index = Math.floor(Math.random()*Beer.all.length)
+    let randomBeer = Beer.all[index]
+    beerList.innerHTML = randomBeer.render()
+    document.getElementById(`comments${randomBeer.id}`).innerHTML = randomBeer.attachComments()
+    addSingleCommentListener()
+  })
+}
+
+function addSingleCommentListener() {
+  let commentForm = document.querySelector('.comment-form')
+  commentForm.addEventListener('submit', e => {
+    e.preventDefault();
+    let newComment = new Comment({content: e.target.querySelector('input').value, beer_id: parseInt(e.target.dataset.id)}) //TEST THIS
+    document.querySelector('div ol').innerHTML += newComment.renderComment()
+    newComment.save()
+  })
+}
+
 
 function commentEventListener() {
   let newCommentForm = document.querySelectorAll('.comment-form')
@@ -37,8 +74,21 @@ function commentEventListener() {
     form.addEventListener('submit', e => {
       e.preventDefault();
       let newComment = new Comment({content: e.target.querySelector('input').value, beer_id: parseInt(e.target.dataset.id)}) //TEST THIS
-      document.querySelectorAll('div ol')[(e.target.dataset.id)-1].innerHTML += newComment.renderComment()
+      let beerIndex = e.target.dataset.id
+
+      // debugger;
+      document.querySelectorAll('div ol').forEach(beer => {
+        // debugger;
+        if(beer.id == (beerIndex)){
+          // debugger;
+          beer.innerHTML += newComment.renderComment();
+        }
+      })
+
+
+      // document.querySelectorAll('div ol')[(e.target.dataset.id)-1].innerHTML += newComment.renderComment()
       newComment.save()
+      // debugger;
     })
   })
 }
@@ -55,9 +105,7 @@ function addNewBeerEventListener() { //call this somewhere
   let newBeer = document.querySelector('form#new-beer-form')
   newBeer.addEventListener('submit', e => {
     e.preventDefault();
-    // debugger;
     let newBeer = new Beer({
-      // debugger;
       name: e.target.querySelector('#name').value,
       abv: e.target.querySelector('#abv').value,
       ibu: e.target.querySelector('#ibu').value,
@@ -68,35 +116,45 @@ function addNewBeerEventListener() { //call this somewhere
     let beerArea = document.getElementById('beer-list')
     beerArea.innerHTML += newBeer.render()
     newBeer.save()
-
   })
 }
 
 function listenerForLikesDislike() {
-  // debugger;
-  let likeButtons = document.querySelectorAll(".like-button")
-  let dislikeButtons = document.querySelectorAll(".dislike-button")
-
-  likeButtons.forEach(button => {
-    button.addEventListener('click', e => {
+  let beerDiv = document.getElementById('beer-list')
+  beerDiv.addEventListener('click', e => {
+    // debugger;
+    if(e.target.name === 'like'){
       let currBeer = Beer.all.find(beer => (beer.id == e.target.dataset.id))
-      console.log(e.target.dataset.id)
-      // console.log(beer.id)
-      console.log(currBeer)
       currBeer.updateLike()
-        .then(() => document.getElementById('beer-list').innerHTML = Beer.renderAll())
-      // var count = 0
-      // let kyle = document.querySelectorAll('span.like')[(e.target.dataset.id)-1].innerText
-      // // debugger;
-      // document.querySelectorAll('span.like')[(e.target.dataset.id)-1].innerText = parseInt(kyle)+1
-    })
-  })
-  dislikeButtons.forEach(button => {
-    button.addEventListener('click', e => {
+        .then(() => {
+          if(document.getElementById('beer-list').children.length === 2) {
+            document.getElementById('beer-list').innerHTML = Beer.renderAll()
+          } else {
+            let beerList = document.getElementById('beer-list')
+            let currBeer = Beer.all.find(beer => beer.id == document.querySelector('.comment-form').dataset.id)
+            beerList.innerHTML = currBeer.render()
+            document.getElementById(`comments${currBeer.id}`).innerHTML = currBeer.attachComments()
+            addSingleCommentListener()
+          }
+        })
+    } else if(e.target.name === 'dislike') {
       let currBeer = Beer.all.find(beer => (beer.id == e.target.dataset.id))
-      var count = 0
-      let kyle = document.querySelectorAll('span.dislike')[(e.target.dataset.id)-1].innerText
-      document.querySelectorAll('span.dislike')[(e.target.dataset.id)-1].innerText = parseInt(kyle)+1
-    })
+      currBeer.updateDisLike()
+        .then(() => {
+          if(document.getElementById('beer-list').children.length === 2) {
+            document.getElementById('beer-list').innerHTML = Beer.renderAll()
+          } else {
+            let beerList = document.getElementById('beer-list')
+            let currBeer = Beer.all.find(beer => beer.id == document.querySelector('.comment-form').dataset.id)
+            beerList.innerHTML = currBeer.render()
+            document.getElementById(`comments${currBeer.id}`).innerHTML = currBeer.attachComments()
+            addSingleCommentListener()
+          }
+        })
+    }
   })
+
+
+
+
 }
