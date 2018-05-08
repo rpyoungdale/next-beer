@@ -3271,7 +3271,7 @@ all_beers = [
 },
 {
   "name": "Blue Moon",
-  "image_url": "https://drizly.com/blue-moon-belgian-white/p1854",
+  "image_url": "https://images-na.ssl-images-amazon.com/images/I/71RixpcZAxL._SY606_.jpg",
   "tagline": "Wheat",
   "ibu": "9.0",
   "abv": "5.4"
@@ -3286,18 +3286,18 @@ Comment.create(content: "Fantastic brewski", beer_id: 1)
 Comment.create(content: "This beer is the Swoop-de-scoop-poop", beer_id: 1)
 Comment.create(content: "Awful beer. Dont ever drink", beer_id: 1)
 Comment.create(content: "Awful beer. Dont ever drink", beer_id: 2)
-Comment.create(content: "Awful beer. Dont ever drink", beer_id: 2)
-Comment.create(content: "Awful beer. Dont ever drink", beer_id: 2)
+Comment.create(content: "Awful beer. Dont ever drink", beer_id: 16)
+Comment.create(content: "Awful beer. Dont ever drink", beer_id: 13)
+Comment.create(content: "Awful beer. Dont ever drink Swoop-de-scoop-poop", beer_id: 3)
 Comment.create(content: "Awful beer. Dont ever drink", beer_id: 3)
 Comment.create(content: "Awful beer. Dont ever drink", beer_id: 3)
-Comment.create(content: "Awful beer. Dont ever drink", beer_id: 3)
 Comment.create(content: "Awful beer. Dont ever drink", beer_id: 4)
-Comment.create(content: "Awful beer. Dont ever drink", beer_id: 4)
-Comment.create(content: "Awful beer. Dont ever drink", beer_id: 4)
-Comment.create(content: "Awful beer. Dont ever drink", beer_id: 4)
-Comment.create(content: "Awful beer. Dont ever drink", beer_id: 4)
-Comment.create(content: "Awful beer. Dont ever drink", beer_id: 4)
+Comment.create(content: "Awful beer. Dont ever drink Swoop-de-scoop-poop", beer_id: 4)
+Comment.create(content: "Awful beer. Dont ever drink", beer_id: 7)
+Comment.create(content: "Awful beer. Dont ever drink", beer_id: 8)
+Comment.create(content: "Awful beer. Dont ever drink", beer_id: 9)
+Comment.create(content: "Awful beer. Dont ever drink", beer_id: 10)
 Comment.create(content: "Awful beer. Dont ever drink", beer_id: 5)
 Comment.create(content: "Awful beer. Dont ever drink", beer_id: 5)
-Comment.create(content: "Awful beer. Dont ever drink", beer_id: 6)
+Comment.create(content: "Awful beer. Dont ever drink", beer_id: 9)
 Comment.create(content: "Awful beer. Dont ever drink", beer_id: 6)

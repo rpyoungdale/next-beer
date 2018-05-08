@@ -18,9 +18,21 @@ class Beer {
     }).join('')
 
     return `
+    <div>
+    <form id="new-beer-form" data-id="${this.id}">
+      <p>Tried a new Beer Recently? Add it here!</p>
+      <input type="text" id="name" placeholder="Name">
+      <input type="text" id="abv" placeholder="ABV">
+      <input type="text" id="ibu" placeholder="IBU">
+      <input type="text" id="type" placeholder="Type of Beer(ex. Wheat)">
+    </form>
+    <button type="submit" value="Submit" form="new-beer-form">Add a New Favorite Beer!</button>
+    </div>
+
     <div id='allBeers'>
       ${allBeerHTML}
-    </div>`
+    </div>
+    `
   }
 
   render() {
@@ -45,6 +57,20 @@ class Beer {
     `
   }
 
+<<<<<<< HEAD
+  save() {
+    fetch('http://localhost:3000/api/v1/comments', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        content: this.content,
+        beer_id: this.beerId
+      })
+    })
+=======
   attachComments() {
     const allCommentsHTML = Comment.all.map(comment => {
       if(comment.beer_id == this.id) {
@@ -58,6 +84,7 @@ class Beer {
         ${allCommentsHTML}
       </ol>
     </div>`
+>>>>>>> refs/remotes/origin/master
   }
 
 }

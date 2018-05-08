@@ -39,3 +39,14 @@ function renderComments() {
     new Comment(comment)
   }))
 }
+
+function addNewBeerEventListener() {
+  let newBeer = document.querySelector('form#new-beer-form')
+  // debugger;
+  newBeer.addEventListener('submit', e => {
+    // debugger
+    e.preventDefault();
+    debugger
+    let newBeer = new Beer(e.target.querySelector('input').value, parseInt(e.target.dataset.id))
+  })
+}
