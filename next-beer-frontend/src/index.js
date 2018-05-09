@@ -1,16 +1,44 @@
 // const beerURLPrefix = 'http://localhost:3000/api/v1'
+
 allBeer = [];
 
 document.addEventListener('DOMContentLoaded', e => {
+  // loadPage()
+  let beerList = document.getElementById('beer-list')
+  // renderRestaurants()
+  renderComments()
+    .then(() => renderPage(beerList))
+    .then(() => renderRestaurants())
+});
+
+function addJquery() {
+  console.log("restuarant lister", Beer.all);
+  $('.dropdown').dropdown({onChange: restaurantListener});
+}
+
+function renderRestaurants() {
+  fetch(`http://localhost:3000/api/v1/restaurants`)
+  .then(res => res.json())
+  .then(json => {
+    // console.log(json)
+    json.forEach(restaurant => {
+      // debugger
+    new Restaurant(restaurant)
+  })
+  })
+  .then(() => Restaurant.render())
+  .then(() => addJquery())
+
+}
+
+function loadPage() {
   let beerList = document.getElementById('beer-list')
   renderComments()
     .then(() => renderPage(beerList))
-});
-
-
+}
 
 function renderPage(beerList) {
-  fetch(`http://localhost:3000/api/v1/beers`)
+  return fetch(`http://localhost:3000/api/v1/beers`)
     .then(res => res.json())
     .then(json => json.forEach(beer => {
       new Beer(beer)
@@ -31,14 +59,23 @@ function renderPage(beerList) {
     .then(() => nextBeer())
     .then(() => allBeers())
 
+
 }
 
 function allBeers() {
+
   let beerList = document.getElementById('beer-list')
   let allBeersButton = document.getElementById('all-beers')
   allBeersButton.addEventListener('click', e => {
     e.preventDefault()
-    renderPage(beerList)
+    beerList.innerHTML = ''
+    beerList.innerHTML = Beer.renderAll()
+    Beer.all.forEach(beer => {
+      document.getElementById(`comments${beer.id}`).innerHTML = beer.attachComments()
+    })
+    commentEventListener()
+    addNewBeerEventListener()
+    // renderPage(beerList)
     // document.getElementById('beer-list').innerHTML = Beer.renderAll()
 
   })
@@ -73,6 +110,7 @@ function commentEventListener() {
   newCommentForm.forEach(form => {
     form.addEventListener('submit', e => {
       e.preventDefault();
+      // debugger
       let newComment = new Comment({content: e.target.querySelector('input').value, beer_id: parseInt(e.target.dataset.id)}) //TEST THIS
       let beerIndex = e.target.dataset.id
 
@@ -129,6 +167,8 @@ function listenerForLikesDislike() {
         .then(() => {
           if(document.getElementById('beer-list').children.length === 2) {
             document.getElementById('beer-list').innerHTML = Beer.renderAll()
+            document.getElementById(`comments${currBeer.id}`).innerHTML = currBeer.attachComments()
+            commentEventListener()
           } else {
             let beerList = document.getElementById('beer-list')
             let currBeer = Beer.all.find(beer => beer.id == document.querySelector('.comment-form').dataset.id)
@@ -143,6 +183,8 @@ function listenerForLikesDislike() {
         .then(() => {
           if(document.getElementById('beer-list').children.length === 2) {
             document.getElementById('beer-list').innerHTML = Beer.renderAll()
+            document.getElementById(`comments${currBeer.id}`).innerHTML = currBeer.attachComments()
+            commentEventListener()
           } else {
             let beerList = document.getElementById('beer-list')
             let currBeer = Beer.all.find(beer => beer.id == document.querySelector('.comment-form').dataset.id)
@@ -154,7 +196,21 @@ function listenerForLikesDislike() {
     }
   })
 
+}
 
+function restaurantListener(value, text) {
+    console.log(Beer.all);
 
-
+    // debugger
+    if(event.target.dataset.id) {
+      let selected = Restaurant.all.find(restaurant => {
+        return restaurant.id == event.target.dataset.id
+      })
+      console.log(selected)
+      console.log(document.getElementById('beer-list'))
+      document.getElementById('beer-list').innerHTML = `<h1 style="text-align:center">${selected.name} Draft List</h1>`
+      document.getElementById('beer-list').innerHTML += Beer.renderAll(selected.beers)
+      // debugger;
+    }
+    // debugger;
 }

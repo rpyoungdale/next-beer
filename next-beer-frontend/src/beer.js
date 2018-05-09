@@ -19,15 +19,15 @@ class Beer {
     Beer.all.push(this);
   }
 
-  static renderAll() {
-    const allBeerHTML = Beer.all.map(beer => {
+  static renderAll(beers=Beer.all) {
+    const allBeerHTML = beers.map(beer => {
       return beer.render();
     }).join('')
 
     return `
     <div>
-    <form id="new-beer-form" data-id="${this.id}">
-      <p>Tried a new Beer Recently? Add it here!</p>
+    <form style="text-align:center" id="new-beer-form" data-id="${this.id}">
+      <h3>Tried a new Beer Recently? Add it here!</h3>
       <input type="text" id="name" placeholder="Name">
       <input type="text" id="abv" placeholder="ABV">
       <input type="text" id="ibu" placeholder="IBU">
@@ -43,27 +43,36 @@ class Beer {
   }
 
   render() {
+    // debugger;
     return `
-    <h1>${this.name}</h1>
-    <img src="${this.image}" height="200">
-    <ul>
-      <li>Type: ${this.beerType}</li>
-      <li>ABV: ${this.abv}</li>
-      <li>IBU: ${this.ibu}</li>
-    </ul>
-    <div class="like-dislike">
-      Likes: <span name="like" data-id="${this.id}">${this.likeCount}</span><button name="like" class="like-button"  data-id ="${this.id}" style="font-size:27px;border: none;
-        background: none;">👍</button>
-      Dislikes: <span name="dislike" data-id="${this.id}">${this.dislikeCount}</span><button name="dislike" class="dislike-button" data-id ="${this.id}" style="font-size:27px;border: none;
-        background: none;">👎</button>
-    </div>
-    <form class="comment-form" data-id="${this.id}">
-      <p>Tell us what you think!</p>
-      <input type="text">
-      <input type="submit" value="Submit">
-    </form>
-    <h3>Comments</h3>
-    <div id="comments${this.id}">
+    <div class='row'>
+      <div class='col-lg-2'>
+      </div>
+      <div class='col-lg-2'>
+        <img style='height: 700px'src="${this.image}">
+      </div>
+      <div style='font-size: 40px' class='col-lg-8'>
+        <h1 style='font-size: 60px'>${this.name}</h1>
+        <ul>
+          <li>Type: ${this.beerType}</li>
+          <li>ABV: ${this.abv}</li>
+          <li>IBU: ${this.ibu}</li>
+        </ul>
+        <div class="like-dislike">
+          Likes: <span name="like" data-id="${this.id}">${this.likeCount}</span><button name="like" class="like-button"  data-id ="${this.id}" style="font-size:50px;border: none;
+            background: none;">👍</button>
+          Dislikes: <span name="dislike" data-id="${this.id}">${this.dislikeCount}</span><button name="dislike" class="dislike-button" data-id ="${this.id}" style="font-size:50px;border: none;
+            background: none;">👎</button>
+        </div>
+        <form class="comment-form" data-id="${this.id}">
+          <p>Tell us what you think!</p>
+          <input type="text">
+          <input type="submit" value="Submit">
+        </form>
+        <h3>Comments</h3>
+        <div id="comments${this.id}">
+        </div>
+      </div>
     </div>
     `
   }

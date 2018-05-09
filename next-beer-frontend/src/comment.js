@@ -1,7 +1,6 @@
 // let commentId = 0
 class Comment {
   constructor(comment) {
-    // this.id = ++commentId
     this.content = comment.content
     this.beer_id = comment.beer_id
     Comment.all.push(this)

@@ -6,11 +6,57 @@
     <script src="src/beer.js" charset="utf-8"></script>
     <script src="src/comment.js" charset="utf-8"></script>
     <script src="src/index.js" charset="utf-8"></script>
+    <script src="src/restaurant.js" charset="utf-8"></script>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.1/dist/semantic.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.1/dist/semantic.min.js"></script>
+
+
+
   </head>
   <body>
-    <button id='next-beer' style="font-size : 30px; width: 100%; height: 100px;">Next Beer!™️</button>
-    <button id='all-beers' style="font-size : 30px; width: 100%; height: 100px;">All Beers!™️</button>
+    <button id='next-beer' style="font-size : 30px; width: 100%; height: 50px;">Next Brewski™️</button>
+    <button id='all-beers' style="font-size : 30px; width: 100%; height: 50px;">Available Brewskis</button>
+
+    <!-- <div class="ui selection dropdown">
+    <input type="hidden" name="gender">
+    <i class="dropdown icon"></i>
+    <div class="default text">Gender</div>
+    <div class="menu">
+      <div class="item" data-value="male" data-text="Male">
+        <i class="male icon"></i>
+        Male
+      </div>
+      <div class="item" data-value="female" data-text="Female">
+        <i class="female icon"></i>
+        Female
+      </div>
+    </div>
+    </div>
+
+    <select class="ui dropdown">
+      <option value="">Gender</option>
+      <option value="1">Male</option>
+      <option value="0">Female</option>
+    </select> -->
+
+
+      <div class="ui selection dropdown">
+        <input type="hidden" name="Select Restaurant">
+        <i class="dropdown icon"></i>
+        <div class="default text">Select Restaurant</div>
+        <div class="menu" id="restaurants">
+
+        </div>
+      </div>
+
+      <br>
+      <!-- <input type="submit"> -->
+    <!-- </form> -->
     <div id="beer-list">
+
     </div>
   </body>
 </html>
