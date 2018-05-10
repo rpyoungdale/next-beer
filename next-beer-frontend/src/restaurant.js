@@ -4,8 +4,25 @@ class Restaurant {
     this.name = json.name
     this.address = json.address
     this.logo = json.logo
-    this.beers = attachBeers(json.beers)
+    this.beers = this.attachBeers(json.beers)
     Restaurant.all.push(this)
+  }
+
+  attachBeers(json) {
+    let beerArray = []
+    if(Beer.all.length){
+      Beer.all.forEach(beer => {
+        json.forEach(jsonBeer => {
+          // debugger
+          if(jsonBeer.id == beer.id) {
+            beerArray.push(beer)
+          }
+        })
+      })
+    } else {
+      json.forEach(jsonBeer => beerArray.push(new Beer(jsonBeer)))
+    }
+    return beerArray;
   }
 
   static render() {
@@ -21,19 +38,7 @@ class Restaurant {
 
 }
 
-function attachBeers(json) {
-  let beerArray = [];
-  json.forEach(jsonBeer => {
-    if(Beer.all.length){
-      Beer.all.forEach(beer => {
-        if(beer.id === jsonBeer.id) {
-          beerArray.push(beer)
-        }
-      })
-    }
-  })
-  return beerArray;
-}
+
 
 
 Restaurant.all = [];
