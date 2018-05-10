@@ -8,17 +8,41 @@
     <script src="src/index.js" charset="utf-8"></script>
     <script src="src/restaurant.js" charset="utf-8"></script>
 
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.1/dist/semantic.min.css">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.1/dist/semantic.min.js"></script>
 
-
-
   </head>
   <body>
-    <button id='next-beer' style="font-size : 30px; width: 100%; height: 50px;">Next Brewski™️</button>
-    <button id='all-beers' style="font-size : 30px; width: 100%; height: 50px;">Available Brewskis</button>
+
+    <div class="ui secondary menu">
+      <a class="active item" id='next-beer'>Next Brewski™️</a>
+      <a class="active item" id='all-beers' >Available Brewskis</a>
+
+      <a class="item">
+        <div class="ui selection dropdown">
+          <input type="hidden" name="Select Restaurant">
+          <i class="dropdown icon"></i>
+          <div class="default text">Select Restaurant</div>
+          <div class="menu" id="restaurants">
+
+          </div>
+        </div>
+      </a>
+
+
+      <div class="right menu">
+        <div class="item">
+          <div class="ui icon input">
+            <input type="text" placeholder="Search..." id="searchBeerName">
+            <i class="search link icon"></i>
+          </div>
+        </div>
+        <a class="ui item">
+          Logout
+        </a>
+      </div>
+    </div>
 
     <!-- <div class="ui selection dropdown">
     <input type="hidden" name="gender">
@@ -43,14 +67,7 @@
     </select> -->
 
 
-      <div class="ui selection dropdown">
-        <input type="hidden" name="Select Restaurant">
-        <i class="dropdown icon"></i>
-        <div class="default text">Select Restaurant</div>
-        <div class="menu" id="restaurants">
 
-        </div>
-      </div>
 
       <br>
       <!-- <input type="submit"> -->
