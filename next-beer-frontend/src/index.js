@@ -19,8 +19,8 @@ document.addEventListener('DOMContentLoaded', e => {
 function domManipulation() {
   renderAllContent()
   addLikeDislikeListener()
-  nextBeer()
   allBeers()
+  nextBeer()
   addJqueryandRestaurantListener()
   addCommentListener()
   addSearchListener()
@@ -72,11 +72,28 @@ function nextBeer() {
     let index = Math.floor(Math.random()*Beer.all.length)
     let randomBeer = Beer.all[index]
     // console.log("Random",randomBeer.likeCount)
-    beerList.innerHTML = randomBeer.render()
+    beerList.innerHTML = randomBeer.renderNextBeer()
+
+    document.getElementById('next-beer-card').addEventListener('click', e => {
+      let beerList = document.getElementById('beer-list')
+      let index = Math.floor(Math.random()*Beer.all.length)
+      let randomBeer = Beer.all[index]
+      beerList.innerHTML = randomBeer.renderNextBeer()
+      nextBeer()
+    })
     // console.log(randomBeer, randomBeer.likeCount)
     // document.getElementById(`comments${randomBeer.id}`).innerHTML = randomBeer.attachComments()
     // addSingleCommentListener()
   })
+  if(document.getElementById('next-beer-card')) {
+    document.getElementById('next-beer-card').addEventListener('click', e => {
+      let beerList = document.getElementById('beer-list')
+      let index = Math.floor(Math.random()*Beer.all.length)
+      let randomBeer = Beer.all[index]
+      beerList.innerHTML = randomBeer.renderNextBeer()
+      nextBeer()
+    })
+  }
 }
 
 
@@ -84,6 +101,7 @@ function addJqueryandRestaurantListener() {
   Restaurant.render()
   // console.log("restuarant lister", Beer.all);
   $('.dropdown').dropdown({onChange: restaurantListener});
+  // $('.shape').shape('flip up', onClick);
 }
 
 function restaurantListener(value, text) {
@@ -92,7 +110,7 @@ function restaurantListener(value, text) {
         return restaurant.id == event.target.dataset.id
       })
       document.getElementById('beer-list').innerHTML = ''
-      document.getElementById('beer-list').innerHTML = `<h1 style="text-align:center">${selectedRestaurant.name} Draft List</h1>`
+      document.getElementById('beer-list').innerHTML = `<h1 class="ui block header" style="text-align:center; margin:100px 700px -80px 700px; background-color:rgba(220,220,220,1)" >${selectedRestaurant.name} Draft List</h1>`
       document.getElementById('beer-list').innerHTML += Beer.renderAll(selectedRestaurant.beers)
     }
 }
@@ -104,13 +122,14 @@ function addCommentListener() {
     let newComment = new Comment({content: e.target.querySelector('input').value, beer_id: parseInt(e.target.dataset.id)}) //TEST THIS
     newComment.save()
     document.getElementById(`comments${e.target.dataset.id}`).innerHTML += newComment.renderComment()
+    e.target.querySelector('input').value = ''
   })
 }
 
 function addSearchListener() {
   let searchInput = document.getElementById('searchBeerName')
   searchInput.addEventListener('input', e => {
-    let filteredBeers = Beer.all.filter(beer => beer.name.toLowerCase().includes(e.target.value))
+    let filteredBeers = Beer.all.filter(beer => beer.name.toLowerCase().includes(e.target.value.toLowerCase()))
     let beerArea = document.getElementById('beer-list')
     beerArea.innerHTML = Beer.renderAll(filteredBeers)
   })
@@ -163,125 +182,126 @@ function addSearchListener() {
 
 
 
-
-function loadPage() {
-  let beerList = document.getElementById('beer-list')
-  renderComments()
-    .then(() => renderPage(beerList))
-}
-
-// function renderPage(beerList) {
-//   return fetch(`http://localhost:3000/api/v1/beers`)
-//     .then(res => res.json())
-//     .then(json => json.forEach(beer => {
-//       new Beer(beer)
-//     }))
-//     .then(() => {
-//       beerList.innerHTML = Beer.renderAll()
-//     })
-//     .then(() => {
-//       addNewBeerEventListener()
-//     })
-//     .then(() => Beer.all.forEach(beer => {
-//       document.getElementById(`comments${beer.id}`).innerHTML = beer.attachComments()
-//     }))
-//     .then(() => commentEventListener())
-//     .then(() => {
-//       listenerForLikesDislike()
-//     })
-//     .then(() => nextBeer())
-//     .then(() => allBeers())
 //
+// function loadPage() {
+//   let beerList = document.getElementById('beer-list')
+//   renderComments()
+//     .then(() => renderPage(beerList))
+// }
+//
+// // function renderPage(beerList) {
+// //   return fetch(`http://localhost:3000/api/v1/beers`)
+// //     .then(res => res.json())
+// //     .then(json => json.forEach(beer => {
+// //       new Beer(beer)
+// //     }))
+// //     .then(() => {
+// //       beerList.innerHTML = Beer.renderAll()
+// //     })
+// //     .then(() => {
+// //       addNewBeerEventListener()
+// //     })
+// //     .then(() => Beer.all.forEach(beer => {
+// //       document.getElementById(`comments${beer.id}`).innerHTML = beer.attachComments()
+// //     }))
+// //     .then(() => commentEventListener())
+// //     .then(() => {
+// //       listenerForLikesDislike()
+// //     })
+// //     .then(() => nextBeer())
+// //     .then(() => allBeers())
+// //
+// //
+// // }
+//
+//
+//
+//
+// function addSingleCommentListener() {
+//   let commentForm = document.querySelector('#comment-form')
+//   commentForm.addEventListener('submit', e => {
+//     e.preventDefault();
+//     let newComment = new Comment({content: e.target.querySelector('input').value, beer_id: parseInt(e.target.dataset.id)}) //TEST THIS
+//     document.querySelector('div ol').innerHTML += newComment.renderComment()
+//     newComment.save()
+//   })
+// }
+//
+//
+// function commentEventListener() {
+//   debugger
+//   let newCommentForm = document.querySelectorAll('#comment-form')
+//   newCommentForm.forEach(form => {
+//     form.addEventListener('submit', e => {
+//       e.preventDefault();
+//       // debugger
+//       let newComment = new Comment({content: e.target.querySelector('input').value, beer_id: parseInt(e.target.dataset.id)}) //TEST THIS
+//       let beerIndex = e.target.dataset.id
+//
+//       // debugger;
+//       document.querySelectorAll('div ol').forEach(beer => {
+//         // debugger;
+//         if(beer.id == (beerIndex)){
+//           // debugger;
+//           beer.innerHTML += newComment.renderComment();
+//         }
+//       })
+//
+//
+//       // document.querySelectorAll('div ol')[(e.target.dataset.id)-1].innerHTML += newComment.renderComment()
+//       newComment.save()
+//       // debugger;
+//     })
+//   })
+// }
+//
+// function renderComments() {
+//   return fetch(`http://localhost:3000/api/v1/comments`)
+//   .then(res => res.json())
+//   .then(json => json.forEach(comment => {
+//     new Comment(comment)
+//   }))
+// }
+//
+//
+//
+// function listenerForLikesDislike() {
+//   let beerDiv = document.getElementById('beer-list')
+//   beerDiv.addEventListener('click', e => {
+//     // debugger;
+//     if(e.target.name === 'like'){
+//       let currBeer = Beer.all.find(beer => (beer.id == e.target.dataset.id))
+//       currBeer.updateLike()
+//         .then(() => {
+//           if(document.getElementById('beer-list').children.length === 2) {
+//             document.getElementById('beer-list').innerHTML = Beer.renderAll()
+//             document.getElementById(`comments${currBeer.id}`).innerHTML = currBeer.attachComments()
+//             commentEventListener()
+//           } else {
+//             let beerList = document.getElementById('beer-list')
+//             let currBeer = Beer.all.find(beer => beer.id == document.querySelector('#comment-form').dataset.id)
+//             beerList.innerHTML = currBeer.render()
+//             document.getElementById(`comments${currBeer.id}`).innerHTML = currBeer.attachComments()
+//             addSingleCommentListener()
+//           }
+//         })
+//     } else if(e.target.name === 'dislike') {
+//       let currBeer = Beer.all.find(beer => (beer.id == e.target.dataset.id))
+//       currBeer.updateDisLike()
+//         .then(() => {
+//           if(document.getElementById('beer-list').children.length === 2) {
+//             document.getElementById('beer-list').innerHTML = Beer.renderAll()
+//             document.getElementById(`comments${currBeer.id}`).innerHTML = currBeer.attachComments()
+//             commentEventListener()
+//           } else {
+//             let beerList = document.getElementById('beer-list')
+//             let currBeer = Beer.all.find(beer => beer.id == document.querySelector('#comment-form').dataset.id)
+//             beerList.innerHTML = currBeer.render()
+//             document.getElementById(`comments${currBeer.id}`).innerHTML = currBeer.attachComments()
+//             addSingleCommentListener()
+//           }
+//         })
+//     }
+//   })
 //
 // }
-
-
-
-
-function addSingleCommentListener() {
-  let commentForm = document.querySelector('.comment-form')
-  commentForm.addEventListener('submit', e => {
-    e.preventDefault();
-    let newComment = new Comment({content: e.target.querySelector('input').value, beer_id: parseInt(e.target.dataset.id)}) //TEST THIS
-    document.querySelector('div ol').innerHTML += newComment.renderComment()
-    newComment.save()
-  })
-}
-
-
-function commentEventListener() {
-  let newCommentForm = document.querySelectorAll('.comment-form')
-  newCommentForm.forEach(form => {
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      // debugger
-      let newComment = new Comment({content: e.target.querySelector('input').value, beer_id: parseInt(e.target.dataset.id)}) //TEST THIS
-      let beerIndex = e.target.dataset.id
-
-      // debugger;
-      document.querySelectorAll('div ol').forEach(beer => {
-        // debugger;
-        if(beer.id == (beerIndex)){
-          // debugger;
-          beer.innerHTML += newComment.renderComment();
-        }
-      })
-
-
-      // document.querySelectorAll('div ol')[(e.target.dataset.id)-1].innerHTML += newComment.renderComment()
-      newComment.save()
-      // debugger;
-    })
-  })
-}
-
-function renderComments() {
-  return fetch(`http://localhost:3000/api/v1/comments`)
-  .then(res => res.json())
-  .then(json => json.forEach(comment => {
-    new Comment(comment)
-  }))
-}
-
-
-
-function listenerForLikesDislike() {
-  let beerDiv = document.getElementById('beer-list')
-  beerDiv.addEventListener('click', e => {
-    // debugger;
-    if(e.target.name === 'like'){
-      let currBeer = Beer.all.find(beer => (beer.id == e.target.dataset.id))
-      currBeer.updateLike()
-        .then(() => {
-          if(document.getElementById('beer-list').children.length === 2) {
-            document.getElementById('beer-list').innerHTML = Beer.renderAll()
-            document.getElementById(`comments${currBeer.id}`).innerHTML = currBeer.attachComments()
-            commentEventListener()
-          } else {
-            let beerList = document.getElementById('beer-list')
-            let currBeer = Beer.all.find(beer => beer.id == document.querySelector('.comment-form').dataset.id)
-            beerList.innerHTML = currBeer.render()
-            document.getElementById(`comments${currBeer.id}`).innerHTML = currBeer.attachComments()
-            addSingleCommentListener()
-          }
-        })
-    } else if(e.target.name === 'dislike') {
-      let currBeer = Beer.all.find(beer => (beer.id == e.target.dataset.id))
-      currBeer.updateDisLike()
-        .then(() => {
-          if(document.getElementById('beer-list').children.length === 2) {
-            document.getElementById('beer-list').innerHTML = Beer.renderAll()
-            document.getElementById(`comments${currBeer.id}`).innerHTML = currBeer.attachComments()
-            commentEventListener()
-          } else {
-            let beerList = document.getElementById('beer-list')
-            let currBeer = Beer.all.find(beer => beer.id == document.querySelector('.comment-form').dataset.id)
-            beerList.innerHTML = currBeer.render()
-            document.getElementById(`comments${currBeer.id}`).innerHTML = currBeer.attachComments()
-            addSingleCommentListener()
-          }
-        })
-    }
-  })
-
-}

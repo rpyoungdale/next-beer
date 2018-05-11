@@ -34,31 +34,14 @@ class Beer {
     const allBeerHTML = beers.map(beer => {
       return beer.render();
     }).join('')
-    // debugger;
 
     return `
-
-
-
-
-
-    <div id='allBeers'>
+    <div class="ui centered grid" id='allBeers' style='margin-top:40px;'>
       ${allBeerHTML}
     </div>
     `
-//old form for creating beers- later functionality
-    // <div class="ui form" style="width:300px">
-    //   <form style="text-align:center" id="new-beer-form" data-id="${this.id}">
-    //     <h3>Tried a new Beer Recently? Add it here!</h3>
-    //     <input type="text" id="name" placeholder="Name">
-    //     <input type="text" id="abv" placeholder="ABV">
-    //     <input type="text" id="ibu" placeholder="IBU">
-    //     <input type="text" id="type" placeholder="Type of Beer(ex. Wheat)">
-    //     <input type="submit" value="Add a New Favorite Beer!">
-    //   </form>
-    // </div>
   }
-  //
+
   render() {
     let commentsHTML = ''
     if(this.comments.length){
@@ -68,39 +51,85 @@ class Beer {
     }
     // debugger;
     return `
-    <div class='row'>
-      <div class='col-lg-2'>
+    <div class="five wide column">
+    <div class="ui centered card" style="margin-top:75px; background-color:rgba(255, 255, 255, 0.7); min-width:510px;">
+      <div style="padding:30px">
+        <img style="margin-top:30px; margin-bottom:30px; min-height:500px; max-height:500px" class = "ui centered image" src="${this.image}">
       </div>
-      <div class='col-lg-2'>
-        <img style='height: 700px'src="${this.image}">
-      </div>
-      <div style='font-size: 40px' class='col-lg-8'>
-        <h1 style='font-size: 60px'>${this.name}</h1>
-        <ul class="ui list">
-          <li>Type: ${this.beerType}</li>
-          <li>ABV: ${this.abv}</li>
-          <li>IBU: ${this.ibu}</li>
-        </ul>
+      <div class="content" style="text-align:center">
+        <a class="header">
+          <h1>${this.name}</h1>
+          </a>
+
+        <div class="description" >
+
+            <h2>Type: ${this.beerType} ||
+            ABV: ${this.abv} ||
+            IBU: ${this.ibu}</h2>
+
+        </div>
+        <h3>
         <div class="like-dislike" >
-          Likes: <span name="like" data-id="${this.id}">${this.likeCount}</span><button name="like" class="like-button"  data-id ="${this.id}" style="font-size:50px;border: none;
-            background: none;">👍</button>
-          Dislikes: <span name="dislike" data-id="${this.id}">${this.dislikeCount}</span><button name="dislike" class="dislike-button" data-id ="${this.id}" style="font-size:50px;border: none;
-            background: none;">👎</button>
+        Likes: <span name="like" data-id="${this.id}">${this.likeCount}</span><button name="like" class="like-button"  data-id ="${this.id}" style="border: none;
+        background: none;">👍</button>
+        Dislikes: <span name="dislike" data-id="${this.id}">${this.dislikeCount}</span><button name="dislike" class="dislike-button" data-id ="${this.id}" style="border: none;
+        background: none;">👎</button>
         </div>
-        <form class="comment-form" data-id="${this.id}">
-          <p>Tell us what you think!</p>
-          <input type="text">
-          <input type="submit" value="Submit">
+        </h3>
+      </div>
+      <div class="extra content">
+      <div class="ui comments" style="color:black">
+      <h3>Comments</h3>
+        <ul class="text" id="comments${this.id}">
+          ${commentsHTML}
+        </ul>
+        <form class="ui reply form" id="comment-form" data-id="${this.id}">
+          <input type="text" placeholder="Add Comment!">
+          <input style="visibility: hidden;" type="submit" value="Submit">
         </form>
-        <h3>Comments</h3>
-        <div class="ui comments">
-          <ul class="text" id="comments${this.id}">
-            ${commentsHTML}
-          </ul>
-        </div>
+      </div>
       </div>
     </div>
+    </div>
     `
+  }
+
+  renderNextBeer() {
+    let commentsHTML = ''
+    if(this.comments.length){
+      commentsHTML = this.comments.map(comment => {
+        return `<li>${comment.content}</li>`
+      }).join('')
+    }
+    // debugger;
+    return `
+    <div class="ui centered card" style="margin-top:75px; background-color:rgba(255, 255, 255, 0.7); min-width:510px;">
+      <div>
+        <img style="margin-top:30px; margin-bottom:30px; min-height:500px; max-height:500px" class = "ui centered image" src="${this.image}">
+      </div>
+      <div class="content" style="text-align:center">
+        <a class="header"><h1>${this.name}</h1></a>
+
+        <div class="description" >
+
+            <h3>Type: ${this.beerType} ||
+            ABV: ${this.abv} ||
+            IBU: ${this.ibu}</h3><br>
+
+        </div>
+        <a>
+        <div class="like-dislike" >
+        Likes: <span name="like" data-id="${this.id}">${this.likeCount}</span><button name="like" class="like-button"  data-id ="${this.id}" style="border: none;
+        background: none;">👍</button>
+        Dislikes: <span name="dislike" data-id="${this.id}">${this.dislikeCount}</span><button name="dislike" class="dislike-button" data-id ="${this.id}" style="border: none;
+        background: none;">👎</button>
+        </div>
+        </a>
+      </div>
+      <div class="extra content">
+        <button class="fluid ui button" id="next-beer-card">Next Brewski</button>
+      </div>
+    </div>`
   }
 
   updateLike() {
@@ -156,26 +185,7 @@ class Beer {
       })
     })
   }
-  //
 
-  //
-
-  //
-  // attachComments() {
-  //   const allCommentsHTML = Comment.all.map(comment => {
-  //     if(comment.beer_id == this.id) {
-  //       return `${comment.renderComment()}`;
-  //     }
-  //   }).join('')
-  //
-  //   return `
-  //   <div>
-  //     <ol class='list' id="${this.id}">
-  //       ${allCommentsHTML}
-  //     </ol>
-  //   </div>`
-  //
-  // }
 }
 
 Beer.all = [];
