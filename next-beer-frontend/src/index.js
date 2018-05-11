@@ -22,8 +22,9 @@ function domManipulation() {
   allBeers()
   nextBeer()
   addJqueryandRestaurantListener()
-  addCommentListener()
   addSearchListener()
+  addCommentListener()
+  beerListener()
   // addNewBeerEventListener()
 }
 
@@ -81,9 +82,6 @@ function nextBeer() {
       beerList.innerHTML = randomBeer.renderNextBeer()
       nextBeer()
     })
-    // console.log(randomBeer, randomBeer.likeCount)
-    // document.getElementById(`comments${randomBeer.id}`).innerHTML = randomBeer.attachComments()
-    // addSingleCommentListener()
   })
   if(document.getElementById('next-beer-card')) {
     document.getElementById('next-beer-card').addEventListener('click', e => {
@@ -121,6 +119,11 @@ function addCommentListener() {
     e.preventDefault()
     let newComment = new Comment({content: e.target.querySelector('input').value, beer_id: parseInt(e.target.dataset.id)}) //TEST THIS
     newComment.save()
+    Beer.all.forEach(beer => {
+      if(e.target.dataset.id == beer.id) {
+        beer.comments.push(newComment)
+      }
+    })
     document.getElementById(`comments${e.target.dataset.id}`).innerHTML += newComment.renderComment()
     e.target.querySelector('input').value = ''
   })
@@ -132,6 +135,21 @@ function addSearchListener() {
     let filteredBeers = Beer.all.filter(beer => beer.name.toLowerCase().includes(e.target.value.toLowerCase()))
     let beerArea = document.getElementById('beer-list')
     beerArea.innerHTML = Beer.renderAll(filteredBeers)
+
+  })
+}
+
+function beerListener() {
+  let beerDiv = document.getElementById('beer-list')
+  beerDiv.addEventListener('click', e => {
+    if(e.target.name != 'dislike' && e.target.name != 'like') {
+      // debugger
+      Beer.all.forEach(beer => {
+        if(beer.id == e.target.dataset.id) {
+          beerDiv.innerHTML = beer.showBeer()
+        }
+      })
+    }
   })
 }
 

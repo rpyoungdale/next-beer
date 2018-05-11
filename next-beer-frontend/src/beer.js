@@ -52,13 +52,13 @@ class Beer {
     // debugger;
     return `
     <div class="five wide column">
-    <div class="ui centered card" style="margin-top:75px; background-color:rgba(255, 255, 255, 0.7); min-width:510px;">
+    <div class="ui centered card" style="margin-top:75px; background-color:rgba(255, 255, 255, 0.5); min-width:510px;">
       <div style="padding:30px">
         <img style="margin-top:30px; margin-bottom:30px; min-height:500px; max-height:500px" class = "ui centered image" src="${this.image}">
       </div>
-      <div class="content" style="text-align:center">
+      <div class="content" style="text-align:center; background-color:rgba(255, 255, 255, 0.5)">
         <a class="header">
-          <h1>${this.name}</h1>
+          <h1 data-id='${this.id}'>${this.name}</h1>
           </a>
 
         <div class="description" >
@@ -69,32 +69,33 @@ class Beer {
 
         </div>
         <h3>
-        <div class="like-dislike" >
-        Likes: <span name="like" data-id="${this.id}">${this.likeCount}</span><button name="like" class="like-button"  data-id ="${this.id}" style="border: none;
-        background: none;">👍</button>
-        Dislikes: <span name="dislike" data-id="${this.id}">${this.dislikeCount}</span><button name="dislike" class="dislike-button" data-id ="${this.id}" style="border: none;
-        background: none;">👎</button>
-        </div>
-        </h3>
-      </div>
-      <div class="extra content">
-      <div class="ui comments" style="color:black">
-      <h3>Comments</h3>
-        <ul class="text" id="comments${this.id}">
-          ${commentsHTML}
-        </ul>
-        <form class="ui reply form" id="comment-form" data-id="${this.id}">
-          <input type="text" placeholder="Add Comment!">
-          <input style="visibility: hidden;" type="submit" value="Submit">
-        </form>
-      </div>
       </div>
     </div>
     </div>
     `
+    // <div class="like-dislike" >
+    // Likes: <span name="like" data-id="${this.id}">${this.likeCount}</span><button name="like" class="like-button"  data-id ="${this.id}" style="border: none;
+    // background: none;">👍</button>
+    // Dislikes: <span name="dislike" data-id="${this.id}">${this.dislikeCount}</span><button name="dislike" class="dislike-button" data-id ="${this.id}" style="border: none;
+    // background: none;">👎</button>
+    // </div>
+    // </h3>
+    // <div class="extra content">
+    // <div class="ui comments" style="color:black">
+    // <h3>Comments</h3>
+    // <ul class="text" id="comments${this.id}">
+    // ${commentsHTML}
+    // </ul>
+    // <form class="ui reply form" id="comment-form" data-id="${this.id}">
+    // <input type="text" placeholder="Add Comment!">
+    // <input style="visibility: hidden;" type="submit" value="Submit">
+    // </form>
+    // </div>
+    // </div>
   }
 
   renderNextBeer() {
+    // debugger
     let commentsHTML = ''
     if(this.comments.length){
       commentsHTML = this.comments.map(comment => {
@@ -103,33 +104,101 @@ class Beer {
     }
     // debugger;
     return `
-    <div class="ui centered card" style="margin-top:75px; background-color:rgba(255, 255, 255, 0.7); min-width:510px;">
+    <div class="ui centered card" style="margin-top:129px; min-width:510px; background-color:rgba(255, 255, 255, 0.5)">
       <div>
-        <img style="margin-top:30px; margin-bottom:30px; min-height:500px; max-height:500px" class = "ui centered image" src="${this.image}">
+        <img style="margin-top:30px; margin-bottom:30px; min-height:500px; max-height:500px" class="ui centered image" src="${this.image}">
       </div>
-      <div class="content" style="text-align:center">
+      <div class="content" style="text-align:center; background-color:rgba(255, 255, 255, 0.5)">
         <a class="header"><h1>${this.name}</h1></a>
-
-        <div class="description" >
-
+          <div class="description" >
             <h3>Type: ${this.beerType} ||
             ABV: ${this.abv} ||
             IBU: ${this.ibu}</h3><br>
+          </div>
+        <h3>
+          <div class="like-dislike" >
+          Likes: <span name="like" data-id="${this.id}">${this.likeCount}</span><button name="like" class="like-button"  data-id ="${this.id}" style="border: none;
+          background: none;">👍</button>
+          Dislikes: <span name="dislike" data-id="${this.id}">${this.dislikeCount}</span><button name="dislike" class="dislike-button" data-id ="${this.id}" style="border: none;
+          background: none;">👎</button>
+          </div>
+        </h3>
+      </div>
+      <div class="extra content" style="background-color:rgba(255, 255, 255, 0.5)">
+        <button class="fluid ui button" id="next-beer-card">Next Brewski</button>
+      </div>
+    </div>`
+  }
+  // let beerRestaurants = []
 
+  // function randomName(currBeer) {
+  //   debugger
+  //   beerRestaurants = []
+  //   Restaurant.all.forEach(restaurant => {
+  //     debugger
+  //     restaurant.beers.forEach(beer => {
+  //       debugger
+  //     })
+  //   })
+  // }
+
+  showBeer() {
+    let commentsHTML = ''
+    if(this.comments.length){
+      commentsHTML = this.comments.map(comment => {
+        return `<li>${comment.content}</li>`
+      }).join('')
+    }
+
+    // let currBeer = this
+    // randomName(currBeer)
+
+    return `
+    <div class="five wide column">
+    <div class="ui centered card" style="margin-top:129px; background-color:rgba(255, 255, 255, 0.5); min-width:510px;">
+      <div style="padding:30px">
+        <img style="margin-top:30px; margin-bottom:30px; min-height:500px; max-height:500px" class = "ui centered image" src="${this.image}">
+      </div>
+      <div class="content" style="text-align:center; background-color:rgba(255, 255, 255, 0.5)"">
+        <a class="header">
+          <h1 data-id='${this.id}'>${this.name}</h1>
+        </a>
+        <div class="description" >
+            <h2>Type: ${this.beerType} ||
+            ABV: ${this.abv} ||
+            IBU: ${this.ibu}</h2>
         </div>
-        <a>
+        <div>
+          <h3>
+
+          </h3>
+        </div>
+        <h3>
         <div class="like-dislike" >
         Likes: <span name="like" data-id="${this.id}">${this.likeCount}</span><button name="like" class="like-button"  data-id ="${this.id}" style="border: none;
         background: none;">👍</button>
         Dislikes: <span name="dislike" data-id="${this.id}">${this.dislikeCount}</span><button name="dislike" class="dislike-button" data-id ="${this.id}" style="border: none;
         background: none;">👎</button>
         </div>
-        </a>
+        </h3>
       </div>
-      <div class="extra content">
-        <button class="fluid ui button" id="next-beer-card">Next Brewski</button>
+      <div class="content" style="background-color:rgba(255, 255, 255, 0.5)">
+        <div class="extra content">
+        <div class="ui comments" style="color:black">
+        <h3>Comments</h3>
+        <ul class="text" id="comments${this.id}">
+        ${commentsHTML}
+        </ul>
+        <form class="ui reply form" id="comment-form" data-id="${this.id}">
+        <input type="text" placeholder="Add Comment!">
+        <input style="visibility: hidden;" type="submit" value="Submit">
+        </form>
+        </div>
+        </div>
       </div>
-    </div>`
+    </div>
+    </div>
+    `
   }
 
   updateLike() {
